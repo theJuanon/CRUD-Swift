@@ -41,4 +41,27 @@ class CoreDataManager {
         }
     }
     
+    func leerEmpleados() -> [Empleados]{
+        let fetchRequest: NSFetchRequest<Empleados> = Empleados.fetchRequest()
+        
+        do{
+            return try persistentContainer.viewContext.fetch(fetchRequest)
+        }
+        catch{
+            return []
+        }
+    }
+    
+    func borrarEmpleado(empleado: Empleados) {
+        persistentContainer.viewContext.delete(empleado)
+        
+        do {
+            try persistentContainer.viewContext.save()
+        }
+        catch{
+            persistentContainer.viewContext.rollback()
+            print("Failed to save context \(error.localizedDescription)")
+        }
+    }
+    
 }
