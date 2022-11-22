@@ -9,7 +9,21 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+    
+    let coreDM: CoreDataManager
+    @State var empNombre = ""
+    @State var empApePat = ""
+    @State var empApeMat = ""
+    @State var domicilio = ""
+    @State var telefono = ""
+    @State var puesto = ""
+    @State var activo_opc = 0
+    
+    var body: some View{
+        Text("Ye is GOD").padding()
+    }
+    
+/*    @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
@@ -71,7 +85,7 @@ struct ContentView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-    }
+    }*/
 }
 
 private let itemFormatter: DateFormatter = {
