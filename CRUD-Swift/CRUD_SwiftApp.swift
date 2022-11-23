@@ -2,7 +2,7 @@
 //  CRUD_SwiftApp.swift
 //  CRUD-Swift
 //
-//  Created by CCDM01 on 17/11/22.
+//  Created by Juan Hernandez on 17/11/22.
 //
 
 import SwiftUI
@@ -13,8 +13,8 @@ struct CRUD_SwiftApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ContentView(coreDM: CoreDataManager())
+                /*.environment(\.managedObjectContext, persistenceController.container.viewContext)*/
         }
     }
 }

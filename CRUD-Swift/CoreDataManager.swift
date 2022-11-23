@@ -2,7 +2,7 @@
 //  CoreDataManager.swift
 //  CRUD-Swift
 //
-//  Created by CCDM01 on 22/11/22.
+//  Created by Juan Hernandez on 22/11/22.
 //
 
 import Foundation
@@ -22,7 +22,7 @@ class CoreDataManager {
         })
     }
     
-    func guardarEmpleado(empNombre: String, empApePat: String, empApeMat: String, domicilio: String, telefono: String, puesto: String, activo_opc: Int16 ){
+    func guardarEmpleado(empNombre: String, empApePat: String, empApeMat: String, domicilio: String, telefono: String, puesto: String, activo_opc: String ){
         let empleado = Empleados(context: persistentContainer.viewContext)
         empleado.empNombre = empNombre
         empleado.empApePat = empApePat
