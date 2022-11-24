@@ -6,10 +6,11 @@
         <attribute name="empApeMat" optional="YES" attributeType="String"/>
         <attribute name="empApePat" optional="YES" attributeType="String"/>
         <attribute name="empNombre" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="puesto" optional="YES" attributeType="String"/>
         <attribute name="telefono" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Empleados" positionX="-45" positionY="0" width="128" height="134"/>
+        <element name="Empleados" positionX="-45" positionY="0" width="128" height="149"/>
     </elements>
 </model>

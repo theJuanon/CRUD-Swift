@@ -11,6 +11,7 @@ import CoreData
 struct ContentView: View {
     
     let coreDM: CoreDataManager
+    @State var id = 0
     @State var empNombre = ""
     @State var empApePat = ""
     @State var empApeMat = ""
@@ -18,6 +19,7 @@ struct ContentView: View {
     @State var telefono = ""
     @State var puesto = ""
     @State var activo_opc = ""
+    @State var seleccionado:Empleados?
     @State var empsArray = [Empleados]()
     
     var body: some View{
@@ -30,8 +32,21 @@ struct ContentView: View {
             TextField("Puesto:", text: $puesto).textFieldStyle(RoundedBorderTextFieldStyle())
             TextField("Estado:", text: $activo_opc).textFieldStyle(RoundedBorderTextFieldStyle())
             Button("Save"){
-                coreDM.guardarEmpleado(empNombre: empNombre, empApePat: empApePat, empApeMat: empApeMat, domicilio: domicilio, telefono: telefono, puesto: puesto, activo_opc: activo_opc)
+                if(seleccionado != nil){
+                    seleccionado?.empNombre = empNombre
+                    seleccionado?.empApePat = empApePat
+                    seleccionado?.empApeMat = empApeMat
+                    seleccionado?.domicilio = domicilio
+                    seleccionado?.telefono = telefono
+                    seleccionado?.puesto = puesto
+                    seleccionado?.activo_opc = activo_opc
+                    coreDM.actualizarEmpleado(empleado: seleccionado!)
+                }else{
+                    coreDM.guardarEmpleado(empNombre: empNombre, empApePat: empApePat, empApeMat: empApeMat, domicilio: domicilio, telefono: telefono, puesto: puesto, activo_opc: activo_opc)
+                }
+                
                 mostrarEmpleados()
+                id = 0
                 empNombre = ""
                 empApePat = ""
                 empApeMat = ""
@@ -39,11 +54,13 @@ struct ContentView: View {
                 telefono = ""
                 puesto = ""
                 activo_opc = ""
+                seleccionado = nil
             }
             List{
                 ForEach(empsArray, id: \.self){
                     emp in
                     VStack{
+                        Text(emp.id)
                         Text(emp.empNombre ?? "")
                         Text(emp.empApePat ?? "")
                         Text(emp.empApeMat ?? "")
@@ -51,6 +68,16 @@ struct ContentView: View {
                         Text(emp.telefono ?? "")
                         Text(emp.puesto ?? "")
                         Text(emp.activo_opc ?? "")
+                    }
+                    .onTapGesture{
+                        seleccionado = emp
+                        empNombre = emp.empNombre ?? ""
+                        empApePat = emp.empApePat ?? ""
+                        empApeMat = emp.empApeMat ?? ""
+                        domicilio = emp.domicilio ?? ""
+                        telefono = emp.telefono ?? ""
+                        puesto =  emp.puesto ?? ""
+                        activo_opc = emp.activo_opc ?? ""
                     }
                 }.onDelete(perform: {
                     indexSet in

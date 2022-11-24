@@ -22,8 +22,9 @@ class CoreDataManager {
         })
     }
     
-    func guardarEmpleado(empNombre: String, empApePat: String, empApeMat: String, domicilio: String, telefono: String, puesto: String, activo_opc: String ){
+    func guardarEmpleado(id: Int16, empNombre: String, empApePat: String, empApeMat: String, domicilio: String, telefono: String, puesto: String, activo_opc: String ){
         let empleado = Empleados(context: persistentContainer.viewContext)
+        empleado.id = id
         empleado.empNombre = empNombre
         empleado.empApePat = empApePat
         empleado.empApeMat = empApeMat
@@ -61,6 +62,47 @@ class CoreDataManager {
         catch{
             persistentContainer.viewContext.rollback()
             print("Failed to save context \(error.localizedDescription)")
+        }
+    }
+    
+    func leerEmpleado(codigo: String) -> Empleados?{
+        let fetchRequest: NSFetchRequest<Empleados> = Empleados.fetchRequest()
+        let predicate = NSPredicate(format: "codigo = %@", codigo)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let datos = try persistentContainer.viewContext.fetch(fetchRequest)
+            return datos.first
+        }
+        catch{
+            print("Error al guardar, error en \(error)")
+        }
+        return nil
+    }
+    
+    func actualizarEmpleado(empleado: Empleados){
+        let fetchRequest: NSFetchRequest<Empleados> = Empleados.fetchRequest()
+        let predicate = NSPredicate(format: "id = %@", empleado.id)
+        fetchRequest.predicate = predicate
+        
+        //var emp = persistentContainer.viewContext.updatedObjects(empleado)
+
+        do {
+            let datos = try persistentContainer.viewContext.fetch(fetchRequest)
+            let e = datos.first
+            e?.id = empleado.id
+            e?.empNombre = empleado.empNombre
+            e?.empApePat = empleado.empApePat
+            e?.empApeMat = empleado.empApeMat
+            e?.domicilio = empleado.domicilio
+            e?.telefono = empleado.telefono
+            e?.puesto = empleado.puesto
+            e?.activo_opc = empleado.activo_opc
+            try persistentContainer.viewContext.save()
+            print("empleado guardado")
+        }
+        catch{
+            print("error al guardar, error en \(error)")
         }
     }
     
