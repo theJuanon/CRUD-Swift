@@ -11,7 +11,7 @@ import CoreData
 struct ContentView: View {
     
     let coreDM: CoreDataManager
-    @State var id = 0
+    @State var id = ""
     @State var empNombre = ""
     @State var empApePat = ""
     @State var empApeMat = ""
@@ -24,6 +24,7 @@ struct ContentView: View {
     
     var body: some View{
         VStack{
+            TextField("ID del empleado:", text: $id).textFieldStyle(RoundedBorderTextFieldStyle())
             TextField("Nombre del empleado:", text: $empNombre).textFieldStyle(RoundedBorderTextFieldStyle())
             TextField("Apellido Paterno:", text: $empApePat).textFieldStyle(RoundedBorderTextFieldStyle())
             TextField("Apellido Materno:", text: $empApeMat).textFieldStyle(RoundedBorderTextFieldStyle())
@@ -33,6 +34,7 @@ struct ContentView: View {
             TextField("Estado:", text: $activo_opc).textFieldStyle(RoundedBorderTextFieldStyle())
             Button("Save"){
                 if(seleccionado != nil){
+                    seleccionado?.id = id
                     seleccionado?.empNombre = empNombre
                     seleccionado?.empApePat = empApePat
                     seleccionado?.empApeMat = empApeMat
@@ -42,11 +44,11 @@ struct ContentView: View {
                     seleccionado?.activo_opc = activo_opc
                     coreDM.actualizarEmpleado(empleado: seleccionado!)
                 }else{
-                    coreDM.guardarEmpleado(empNombre: empNombre, empApePat: empApePat, empApeMat: empApeMat, domicilio: domicilio, telefono: telefono, puesto: puesto, activo_opc: activo_opc)
+                    coreDM.guardarEmpleado(id: id, empNombre: empNombre, empApePat: empApePat, empApeMat: empApeMat, domicilio: domicilio, telefono: telefono, puesto: puesto, activo_opc: activo_opc)
                 }
                 
                 mostrarEmpleados()
-                id = 0
+                id = ""
                 empNombre = ""
                 empApePat = ""
                 empApeMat = ""
@@ -60,7 +62,7 @@ struct ContentView: View {
                 ForEach(empsArray, id: \.self){
                     emp in
                     VStack{
-                        Text(emp.id)
+                        Text(emp.id ?? "")
                         Text(emp.empNombre ?? "")
                         Text(emp.empApePat ?? "")
                         Text(emp.empApeMat ?? "")
@@ -71,6 +73,7 @@ struct ContentView: View {
                     }
                     .onTapGesture{
                         seleccionado = emp
+                        id = emp.id ?? ""
                         empNombre = emp.empNombre ?? ""
                         empApePat = emp.empApePat ?? ""
                         empApeMat = emp.empApeMat ?? ""
@@ -88,7 +91,6 @@ struct ContentView: View {
                     })
                 })
             }
-            Spacer()
         }.padding().onAppear(perform: {
             mostrarEmpleados()
             

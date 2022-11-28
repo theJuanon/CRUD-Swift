@@ -22,7 +22,7 @@ class CoreDataManager {
         })
     }
     
-    func guardarEmpleado(id: Int16, empNombre: String, empApePat: String, empApeMat: String, domicilio: String, telefono: String, puesto: String, activo_opc: String ){
+    func guardarEmpleado(id: String, empNombre: String, empApePat: String, empApeMat: String, domicilio: String, telefono: String, puesto: String, activo_opc: String ){
         let empleado = Empleados(context: persistentContainer.viewContext)
         empleado.id = id
         empleado.empNombre = empNombre
@@ -65,9 +65,9 @@ class CoreDataManager {
         }
     }
     
-    func leerEmpleado(codigo: String) -> Empleados?{
+    func leerEmpleado(id: String) -> Empleados?{
         let fetchRequest: NSFetchRequest<Empleados> = Empleados.fetchRequest()
-        let predicate = NSPredicate(format: "codigo = %@", codigo)
+        let predicate = NSPredicate(format: "id = %@", id)
         fetchRequest.predicate = predicate
         
         do {
@@ -82,7 +82,7 @@ class CoreDataManager {
     
     func actualizarEmpleado(empleado: Empleados){
         let fetchRequest: NSFetchRequest<Empleados> = Empleados.fetchRequest()
-        let predicate = NSPredicate(format: "id = %@", empleado.id)
+        let predicate = NSPredicate(format: "id = %@", empleado.id ?? "")
         fetchRequest.predicate = predicate
         
         //var emp = persistentContainer.viewContext.updatedObjects(empleado)
